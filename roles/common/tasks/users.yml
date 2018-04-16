@@ -1,19 +1,25 @@
+- include_vars: users.yml
 - name: Add user specific groups
   group: name={{ item }} state=present
-  with_items: {{ users }}
+  with_items: "{{ users }}"
 - name: Add users
   user:
     createhome: yes
-    group: {{ item }}
-    name: {{ item }}
+    group: "{{ item }}"
+    name: "{{ item }}"
     shell: /bin/zsh
-  with_items: {{ users }}
+  with_items: "{{ users }}"
 - name: Add .ssh for users
   file: mode=0700 owner={{ item }} path=~{{ item }}/.ssh state=directory
-  with_items: {{ users }}
-- name: Deploy dotFiles
-  file:
-      force: yes
-      group: "{{ item[0] }}"
-      owner: "{{ item[0] }}"
-  with_items: {{ users }}
+  with_items: "{{ users }}"
+- name: testing
+  debug:
+    msg: "{{ users }}"
+- name: Add authorized_keys for users
+  template:
+    src: authorized_keys.j2
+    dest: "~{{ item }}/.ssh/authorized_keys"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0400
+  with_items: "{{ users }}"

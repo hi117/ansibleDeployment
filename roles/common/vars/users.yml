@@ -1,2 +1,5 @@
-users:
-  - hi117
+dotFiles:
+  - .zshrc
+  - .vimrc
+  - .tmux.conf
+  - .vim

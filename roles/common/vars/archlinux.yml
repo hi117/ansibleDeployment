@@ -1,0 +1,22 @@
+packages:
+    - openssh
+    - rxvt-unicode-terminfo
+    - dosfstools
+    - efibootmgr
+    - ipcalc
+    - sshfs
+    - unp
+    - mtr
+    - nmap
+    - zip
+    - zramswap
+    - htop
+    - iotop
+    - sudo
+    - sysstat
+    - vim-pathogen
+    - git
+    - zsh
+    - tmux
+    - sshguard
+    - zabbix-agent

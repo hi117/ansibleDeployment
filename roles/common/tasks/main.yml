@@ -1,2 +1,5 @@
 ---
 - import_tasks: users.yml
+- include_tasks: "{{ ansible_distribution }}.yml"
+- import_tasks: dotFiles.yml
+- import_tasks: systemd.yml

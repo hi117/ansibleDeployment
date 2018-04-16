@@ -1,0 +1,45 @@
+---
+- include_vars: archlinux.yml
+- include_vars: users.yml
+- name: Copy over pacman.conf
+  copy:
+    src: archlinux/pacman/pacman.conf
+    dest: /etc/pacman.conf
+    mode: 0400
+    owner: root
+    group: root
+# TODO: import key
+- name: Update
+  pacman: upgrade=yes update_cache=yes
+- name: Install packages
+  pacman:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ packages }}"
+- name: Remove nano
+  pacman: state=absent name=nano
+- name: Configure makepkg
+  copy:
+    src: archlinux/pacman/makepkg.conf
+    dest: /etc/makepkg.conf
+    mode: 0444
+    owner: root
+    group: root
+- name: Add a folder for makepkg to hold packages in
+  file:
+    path: "~{{ item[0] }}/.local/pacman/{{ item[1] }}"
+    state: directory
+    owner: "{{ item[0] }}"
+    group: "{{ item[0] }}"
+  with_nested:
+    - "{{ users }}"
+    - [ pkg, src ]
+- name: Install sudoers
+  copy:
+    src: archlinux/sudo/sudoers
+    dest: /etc/sudoers
+    mode: 0400
+    owner: root
+    group: root
+- name: Start zramswap
+  service: name=zramswap state=started enabled=yes

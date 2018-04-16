@@ -1,0 +1,22 @@
+- name: Copy logind.conf
+  copy:
+    src: files/systemd/logind.conf
+    dest: /etc/systemd/logind.conf
+    mode: 0444
+    owner: root
+    group: root
+- name: Copy timesyncd.conf
+  copy:
+    src: files/systemd/timesyncd.conf
+    dest: /etc/systemd/timesyncd.conf
+    mode: 0444
+    owner: root
+    group: root
+  notify: "restart timesyncd"
+- name: Ensure timesyncd is started
+  service: name=systemd-timesyncd.service state=started enabled=yes
+- name: Set timezone
+  file:
+    src: /usr/share/zoneinfo/America/New_York
+    dest: /etc/localtime
+    state: link
