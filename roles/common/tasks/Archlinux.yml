@@ -5,7 +5,7 @@
   copy:
     src: archlinux/pacman/pacman.conf
     dest: /etc/pacman.conf
-    mode: 0400
+    mode: 0444
     owner: root
     group: root
 # TODO: import key
@@ -41,5 +41,22 @@
     mode: 0400
     owner: root
     group: root
+- name: Configure pam_ssh_agent_auth
+  copy:
+    src: archlinux/sudo/sudo.pam.d
+    dest: /etc/pam.d/sudo
+    mode: 0444
+    owner: root
+    group: root
+- name: Create directory for authorized_keys for pam_ssh_agent_auth
+  file: mode=0700 owner=root group=root path=/etc/ssh/authorized_keys state=directory
+- name: Install user ssh keys for pam_ssh_agent_auth
+  template:
+    src: authorized_keys.j2
+    dest: "/etc/ssh/authorized_keys/{{ item }}"
+    owner: root
+    group: root
+    mode: 0400
+  with_items: "{{ users }}"
 - name: Start zramswap
   service: name=zramswap state=started enabled=yes

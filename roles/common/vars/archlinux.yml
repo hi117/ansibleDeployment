@@ -20,3 +20,4 @@ packages:
     - tmux
     - sshguard
     - zabbix-agent
+    - pam_ssh_agent_auth
