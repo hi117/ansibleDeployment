@@ -23,3 +23,11 @@
     group: "{{ item }}"
     mode: 0400
   with_items: "{{ users }}"
+- name: Add authorized_keys for sftp
+  template:
+    src: authorized_keys_sftp.j2
+    dest: "~{{ item }}/.ssh/authorized_keys_sftp"
+    owner: "{{ item }}"
+    group: "{{ item }}"
+    mode: 0400
+  with_items: "{{ users }}"

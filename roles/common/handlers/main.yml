@@ -1,0 +1,7 @@
+---
+- name: restart timesyncd
+  service: name=systemd-timesyncd.service state=restarted
+- name: restart sshd
+  service: name=sshd.service state=restarted
+- name: restart sshd-sftp
+  service: name=sshd-sftp.service state=restarted

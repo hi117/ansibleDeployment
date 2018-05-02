@@ -1,0 +1,25 @@
+- name: Install sshd-sftp service file
+  copy:
+    src: files/ssh/sshd-sftp.service
+    dest: /etc/systemd/system
+    mode: 0444
+    owner: root
+    group: root
+- name: Enable sshd-sftp service
+  service: name=sshd-sftp.service state=started enabled=yes
+- name: Install sshd_config for normal ssh
+  copy:
+    src: files/ssh/sshd_config
+    dest: /etc/ssh/sshd_config
+    mode: 0444
+    owner: root
+    group: root
+  notify: "restart sshd"
+- name: Install sshd_config for sftp chroot
+  copy:
+    src: files/ssh/sshd_config_sftp
+    dest: /etc/ssh/sshd_config_sftp
+    mode: 0444
+    owner: root
+    group: root
+  notify: "restart sshd-sftp"

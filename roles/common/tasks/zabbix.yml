@@ -1,0 +1,9 @@
+- name: Copy over the zabbix agent config file
+  copy:
+    src: zabbix/zabbix_agentd.conf
+    dest: /etc/zabbix/zabbix_agentd.conf
+    owner: root
+    group: root
+    mode: 0444
+- name: Start zabbix service
+  service: name=zabbix-agent state=started enabled=yes
