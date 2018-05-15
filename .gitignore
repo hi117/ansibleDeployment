@@ -2,3 +2,5 @@ hosts
 ansibleKey
 ansibleKey.pub
 *.retry
+group_vars/*
+host_vars/*
