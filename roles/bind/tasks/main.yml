@@ -1,0 +1,19 @@
+---
+- include_tasks: "{{ ansible_distribution }}.yml"
+- name: Configure bind
+  template:
+    src: named.conf.j2
+    dest: /etc/named.conf
+    owner: root
+    group: named
+    mode: 0440
+  notify: "restart bind"
+- name: Copy zones
+  copy:
+    src: "{{ item }}.zone"
+    dest: "/var/named/{{ item }}.zone"
+    owner: root
+    group: named
+    mode: 0440
+  with_items: "{{ zones }}"
+  notify: "restart bind"
